@@ -1427,3 +1427,14 @@ tr > td:nth-child(2) {
 	color: #ffffff;
 	background: #4c9cef;
 }
+
+.call-to-action {
+	background: url(../images/bg/call-to-action.png);
+	background-attachment: fixed;
+	background-repeat: repeat;
+}
+
+.call-to-action h2 {
+	font-size: 30px;
+	color: #ffffff;
+}
