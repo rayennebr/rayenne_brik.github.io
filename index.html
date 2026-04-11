@@ -256,10 +256,66 @@ nav{
   display:flex;align-items:center;justify-content:center;
   overflow:hidden;cursor:none;
 }
+.photo-area input[type="file"]{
+  position:absolute;inset:0;opacity:0;cursor:none;width:100%;height:100%;
+}
+.photo-placeholder-inner{
+  display:flex;flex-direction:column;align-items:center;gap:1rem;
+  pointer-events:none;
+  transition:opacity 0.3s;
+}
+.photo-area:hover .photo-placeholder-inner{opacity:0.5}
+.avatar-ring{
+  width:90px;height:90px;border-radius:50%;
+  border:2px solid rgba(0,212,255,0.3);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+}
+.avatar-ring::before{
+  content:'';position:absolute;inset:-6px;border-radius:50%;
+  border:1px solid rgba(0,212,255,0.1);
+  animation:spin 8s linear infinite;
+  border-top-color:rgba(0,212,255,0.5);
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.avatar-initials{
+  font-family:var(--ff-mono);font-size:1.5rem;font-weight:700;
+  color:var(--accent);
+}
+.upload-hint{
+  font-family:var(--ff-mono);font-size:0.72rem;color:var(--muted);
+  text-align:center;line-height:1.6;
+}
+.upload-hint span{display:block;font-size:0.62rem;color:rgba(100,116,139,0.6);margin-top:0.2rem}
+.photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 30%;
+}
+.avatar-overlay {
+  position: absolute;
+  top: 12px;
+  right: 12px;  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 2;
+}
 
-.photo-img{
-  width:100%;height:100%;object-fit:cover;
-  display:none;position:absolute;inset:0;
+/* Option : effet glass */
+.avatar-ring {
+  backdrop-filter: blur(6px);
+  background: rgba(10, 15, 25, 0.35);
+}
+.photo-img {
+  opacity: 1;
+}
+
+.photo-area:hover .avatar-overlay {
+  transform: scale(1.05);
+  transition: 0.3s;
 }
 .card-body{padding:1.2rem 1.4rem}
 .card-name{
@@ -592,7 +648,7 @@ footer{
 <!-- ═══ NAV ═══ -->
 <nav>
   <div class="nav-logo">
-    <span class="nav-logo-bracket">[</span>RB<span class="nav-logo-bracket">]</span>
+    <span class="nav-logo-bracket">[</span>Rayenne BRIK<span class="nav-logo-bracket">]</span>
   </div>
   <ul class="nav-links">
     <li><a href="#experience">./experience</a></li>
@@ -601,7 +657,9 @@ footer{
     <li><a href="#formation">./education</a></li>
     <li><a href="#contact">./contact</a></li>
   </ul>
-  <a href="/cdn-cgi/l/email-protection#9ae8fbe3fff4f4ffc5f8e8f3f1daf6f3ecffb4fce8" class="nav-btn">hire_me()</a>
+  <a href="https://www.linkedin.com/in/rayenne-brik" target="_blank" class="nav-btn">
+  hire_me()
+</a>
 </nav>
 
 <!-- ═══ HERO ═══ -->
@@ -628,7 +686,7 @@ footer{
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
         Prendre contact
       </a>
-      <a href="https://rayennebr.github.io/rayenne_brik.github.io/" target="_blank" class="btn-ghost">
+      <a href="https://github.com/rayennebr" target="_blank" class="btn-ghost">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
         GitHub
       </a>
@@ -648,8 +706,15 @@ footer{
       <span class="card-title">developer.profile</span>
     </div>
     <div class="photo-area" id="photoArea">
-      <img src="https://raw.githubusercontent.com/rayennebr/rayenne_brik.github.io/main/img/profile.jpg" class="photo-img" alt="Rayenne BRIK" style="display:block;"/>
+  <img id="photoImg" class="photo-img" alt="Rayenne BRIK" src="img/profile.png"/>
+
+  <!-- RB OVERLAY -->
+  <div class="avatar-overlay">
+    <div class="avatar-ring">
+      <span class="avatar-initials">RB</span>
     </div>
+  </div>
+</div>
     <div class="card-body">
       <div class="card-name">Rayenne BRIK</div>
       <div class="card-role">// Full Stack Java Developer</div>
@@ -920,9 +985,9 @@ footer{
         </div>
       </div>
       <div class="contact-links r">
-        <a href="/cdn-cgi/l/email-protection#4634273f232828231924342f2d062a2f3023682034" class="clink">
+        <a href="mailto:rayenne_brik@live.fr" class="clink">
           <div class="ci-box"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
-          <div><div class="ci-lbl">Email</div><div class="ci-val"><span class="__cf_email__" data-cfemail="95e7f4ecf0fbfbf0caf7e7fcfed5f9fce3f0bbf3e7">[email&#160;protected]</span></div></div>
+          <div><div class="ci-lbl">Email</div><div class="ci-val">rayenne_brik@live.fr</div></div>
           <span class="ci-arr">→</span>
         </a>
         <a href="tel:+21653264063" class="clink">
@@ -930,9 +995,9 @@ footer{
           <div><div class="ci-lbl">Téléphone</div><div class="ci-val">+216 53 264 063</div></div>
           <span class="ci-arr">→</span>
         </a>
-        <a href="https://rayennebr.github.io/rayenne_brik.github.io/" target="_blank" class="clink">
+        <a href="https://github.com/rayennebr" target="_blank" class="clink">
           <div class="ci-box"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div>
-          <div><div class="ci-lbl">Portfolio / GitHub</div><div class="ci-val">rayennebr.github.io</div></div>
+          <div><div class="ci-lbl">GitHub</div><div class="ci-val">rayennebr</div></div>
           <span class="ci-arr">→</span>
         </a>
         <div class="clink" style="cursor:none">
@@ -950,7 +1015,7 @@ footer{
   <div class="foot-stack">Spring Boot · Angular · Microservices · Docker</div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 /* CURSOR */
 const cur = document.getElementById('cursor');
 const ring = document.getElementById('cursor-ring');
@@ -966,8 +1031,6 @@ document.addEventListener('mousemove', e => {
   requestAnimationFrame(animRing);
 })();
 
-
-
 /* SCROLL REVEAL */
 const obs = new IntersectionObserver(entries => {
   entries.forEach(en => {
@@ -980,4 +1043,12 @@ const obs = new IntersectionObserver(entries => {
 document.querySelectorAll('.r,.r2').forEach(el => obs.observe(el));
 
 /* HERO animate on load */
-document.querySelectorAll('.hero-left > 
+document.querySelectorAll('.hero-left > *').forEach((el,i) => {
+  el.style.opacity='0';
+  el.style.transform='translateY(24px)';
+  el.style.transition=`opacity 0.7s ease ${i*0.1+0.1}s, transform 0.7s ease ${i*0.1+0.1}s`;
+  setTimeout(()=>{ el.style.opacity='1'; el.style.transform='none'; }, 100);
+});
+</script>
+</body>
+</html>
